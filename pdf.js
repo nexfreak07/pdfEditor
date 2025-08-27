@@ -1,22 +1,17 @@
-const fs = require('fs');
-const { PDFDocument } = require('pdf-lib');
+const hummus = require('hummus');
 
-async function modifyPDFMetadata(inputPath, outputPath) {
-  const existingPdfBytes = fs.readFileSync(inputPath);
-  const pdfDoc = await PDFDocument.load(existingPdfBytes);
+function changePDFVersion(inputPath, outputPath, version = '1.7') {
+  const pdfWriter = hummus.createWriterToModify(inputPath, {
+    modifiedFilePath: outputPath,
+    version: version
+  });
 
-  // Set metadata (dates in XMP ISO format are auto-converted)
-  const customDate = new Date('2025-07-03T12:33:31+05:30');
-  pdfDoc.setCreationDate(customDate);
-  pdfDoc.setModificationDate(customDate);
-  pdfDoc.set
-
-  
-
-
-  const modifiedPdfBytes = await pdfDoc.save();
-  fs.writeFileSync(outputPath, modifiedPdfBytes);
-  console.log(`✅ Dates updated in "${outputPath}"`);
+  pdfWriter.end();
+  console.log(`✅ PDF version set to ${version} in "${outputPath}"`);
 }
 
-modifyPDFMetadata('D:\\Script\\BCT.pdf', 'C:\\BCT\\Akash Dasgupta.pdf');
+changePDFVersion(
+  'D:\\Script\\102487884.pdf',
+  'C:\\BCT\\102487884NEW.pdf',
+  '1.7'
+);

@@ -4,10 +4,11 @@ const { PDFDocument, PDFName, PDFString, PDFDict } = require('pdf-lib');
 async function modifyPDFMetadata(inputPath, outputPath) {
   const existingPdfBytes = fs.readFileSync(inputPath);
   const pdfDoc = await PDFDocument.load(existingPdfBytes);
-
+  const title = ""
   // Set creation and modification dates
   const customDate = new Date('2025-07-03T12:33:31+05:30');
   pdfDoc.setCreationDate(customDate);
+  pdfDoc.setTitle()
   pdfDoc.setModificationDate(customDate);
 
   // Get access to the low-level context

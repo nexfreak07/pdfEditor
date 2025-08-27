@@ -1,20 +1,27 @@
 const { exiftool } = require('exiftool-vendored');
 const fs = require('fs');
 
-const inputPath = 'D:/Script/BCT.pdf';
-const outputPath = 'C:/BCT/Akash Dasgupta.pdf';
+const inputPath = 'D:/Script/102487884.pdf';
+const outputPath = 'C:/Concentrix/Arya Singh/102487884.22042025.pdf';
 
 // Copy original to preserve it
 fs.copyFileSync(inputPath, outputPath);
-
+ const fixedDatePDF = `2025:04:22 19:35:14+05:30`; 
 async function updateMetadata() {
   try {
     await exiftool.write(outputPath, {
-      Producer: 'Microsoft® Word 2016',
-      Creator: 'Microsoft® Word 2016',
-      CreateDate: '2025:07:03 12:33:31+05:30',
-      ModifyDate: '2025:07:03 12:33:31+05:30'
+       Producer: 'Microsoft® Excel® for Microsoft 365',
+      Creator: 'Microsoft® Excel® for Microsoft 365',
+      CreatorTool: 'Microsoft® Excel® for Microsoft 365',
+      Subject: '-',
+      CreateDate: fixedDatePDF,
+      ModifyDate: fixedDatePDF,
     });
+
+    const tags = await exiftool.read(outputPath);
+    // console.log('CreateDate:', tags.CreateDate);
+    // console.log('ModifyDate:', tags.ModifyDate);
+    console.log('tags:', tags);
 
     console.log('✅ PDF metadata updated successfully!');
   } catch (err) {
